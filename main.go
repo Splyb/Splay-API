@@ -3,15 +3,19 @@ package main
 import (
 	"log"
 	"splay/utils"
+
+	storage_go "github.com/supabase-community/storage-go"
 )
 
 func main() {
 	client := utils.Client()
-	id := "https://tlawanvhwwoubgyspgqv.supabase.co/storage/v1/s3"
-	resp, err := client.Storage.GetBucket(id)
+
+	bucketName := "Music"
+
+	bucket, err := client.Storage.ListFiles(bucketName, "", storage_go.FileSearchOptions{})
 	if err != nil {
-		log.Fatalf("Error al consultar la base de datos: %v", err)
+		log.Fatalf("Error: %v", err)
 	}
 
-	log.Println("Respuesta obtenida:", resp)
+	log.Println("Files:", bucket)
 }
